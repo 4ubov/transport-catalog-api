@@ -1,10 +1,8 @@
 package com.chubov.transportcatalogapi.service.impl;
 
-import com.chubov.transportcatalogapi.model.Vehicle;
 import com.chubov.transportcatalogapi.model.VehicleCategory;
 import com.chubov.transportcatalogapi.repository.VehicleCategoryRepository;
 import com.chubov.transportcatalogapi.service.VehicleCategoryRepositoryService;
-import com.chubov.transportcatalogapi.service.VehicleRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -21,6 +19,6 @@ public class VehicleCategoryRepositoryServiceImpl implements VehicleCategoryRepo
 
     @Override
     public List<VehicleCategory> getAll() {
-        return null;
+        return categoryRepository.findAll();
     }
 }

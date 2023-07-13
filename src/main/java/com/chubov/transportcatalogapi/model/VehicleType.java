@@ -1,9 +1,6 @@
 package com.chubov.transportcatalogapi.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "vehicle_type")
@@ -11,6 +8,7 @@ public class VehicleType {
     //  Сущность описывающая Категорию транспорта
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "type_id")
     Long typeId;
 
@@ -19,8 +17,6 @@ public class VehicleType {
 
 
     //  Constructors
-
-
     public VehicleType(String typeName) {
         this.typeName = typeName;
     }

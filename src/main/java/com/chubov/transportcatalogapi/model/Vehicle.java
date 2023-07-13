@@ -5,45 +5,46 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "vehicle")
 public class Vehicle {
-    //  Сущность описывающая Автомобиль
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vehicle_id")
-    Long vehicleId;
+    private Integer vehicleId;
 
     @Column(name = "brand")
-    String brand;
+    private String brand;
 
     @Column(name = "model")
-    String model;
+    private String model;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    VehicleCategory transportCategory;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private VehicleCategory category;
 
     @Column(name = "state_number")
-    String stateNumber;
+    private String stateNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    VehicleType transportType;
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private VehicleType type;
 
     @Column(name = "year_of_realise")
-    Integer yearOfRealise;
+    private Integer yearOfRealise;
 
     @Column(name = "is_has_trailer")
-    boolean isHasTrailer;
+    private Boolean hasTrailer;
 
 
     //  Constructors
 
-    public Vehicle(String brand, String model, VehicleCategory transportCategory, String stateNumber,
-                   VehicleType transportType, Integer yearOfRealise, boolean isHasTrailer) {
+
+    public Vehicle(String brand, String model, VehicleCategory category, String stateNumber, VehicleType type, Integer yearOfRealise, Boolean hasTrailer) {
         this.brand = brand;
         this.model = model;
-        this.transportCategory = transportCategory;
+        this.category = category;
         this.stateNumber = stateNumber;
-        this.transportType = transportType;
+        this.type = type;
         this.yearOfRealise = yearOfRealise;
-        this.isHasTrailer = isHasTrailer;
+        this.hasTrailer = hasTrailer;
     }
 
     //  No args constructor
@@ -54,11 +55,11 @@ public class Vehicle {
     //  Getter and Setter
 
 
-    public Long getVehicleId() {
+    public Integer getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(Long vehicleId) {
+    public void setVehicleId(Integer vehicleId) {
         this.vehicleId = vehicleId;
     }
 
@@ -78,12 +79,12 @@ public class Vehicle {
         this.model = model;
     }
 
-    public VehicleCategory getTransportCategory() {
-        return transportCategory;
+    public VehicleCategory getCategory() {
+        return category;
     }
 
-    public void setTransportCategory(VehicleCategory transportCategory) {
-        this.transportCategory = transportCategory;
+    public void setCategory(VehicleCategory category) {
+        this.category = category;
     }
 
     public String getStateNumber() {
@@ -94,12 +95,12 @@ public class Vehicle {
         this.stateNumber = stateNumber;
     }
 
-    public VehicleType getTransportType() {
-        return transportType;
+    public VehicleType getType() {
+        return type;
     }
 
-    public void setTransportType(VehicleType transportType) {
-        this.transportType = transportType;
+    public void setType(VehicleType type) {
+        this.type = type;
     }
 
     public Integer getYearOfRealise() {
@@ -110,11 +111,11 @@ public class Vehicle {
         this.yearOfRealise = yearOfRealise;
     }
 
-    public boolean isHasTrailer() {
-        return isHasTrailer;
+    public Boolean getHasTrailer() {
+        return hasTrailer;
     }
 
-    public void setHasTrailer(boolean hasTrailer) {
-        isHasTrailer = hasTrailer;
+    public void setHasTrailer(Boolean hasTrailer) {
+        this.hasTrailer = hasTrailer;
     }
 }

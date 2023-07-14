@@ -1,33 +1,50 @@
 package com.chubov.transportcatalogapi.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VehicleDTO {
     //  DTO для сущности Vehicle
+
+    @NotNull(message = "Должно присутствовать поле brand!")
+    @NotEmpty(message = "Поле brand не должно быть пустым! Example: BWM")
     private String brand;
 
+    @NotNull(message = "Должно присутствовать поле model!")
+    @NotEmpty(message = "Поле model не должно быть пустым! Example: M3")
     private String model;
 
-    private String categoryName;
+    @NotNull(message = "Должно присутствовать поле category!")
+    @NotEmpty(message = "Поле category не должно быть пустым! Example: A")
+    private String category;
 
+    @NotNull(message = "Должно присутствовать поле stateNumber!")
+    @NotEmpty(message = "Поле brand не должно быть пустым! Example: А111АА58")
     private String stateNumber;
 
-    private String typeName;
+    @NotNull(message = "Должно присутствовать поле type!")
+    @NotEmpty(message = "Поле brand не должно быть пустым! Example: Седан")
+    private String type;
 
+    @NotNull(message = "Должно присутствовать поле yearOfRealise!")
     private Integer yearOfRealise;
 
+    @NotNull(message = "Должно присутствовать поле hasTrailer!")
     private Boolean hasTrailer;
 
 
     //  Constructors
 
-    public VehicleDTO(String brand, String model, String categoryName, String stateNumber, String typeName, Integer yearOfRealise, Boolean hasTrailer) {
+
+    public VehicleDTO(String brand, String model, String category, String stateNumber, String type, Integer yearOfRealise, Boolean hasTrailer) {
         this.brand = brand;
         this.model = model;
-        this.categoryName = categoryName;
+        this.category = category;
         this.stateNumber = stateNumber;
-        this.typeName = typeName;
+        this.type = type;
         this.yearOfRealise = yearOfRealise;
         this.hasTrailer = hasTrailer;
     }
@@ -56,12 +73,12 @@ public class VehicleDTO {
         this.model = model;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getStateNumber() {
@@ -72,12 +89,12 @@ public class VehicleDTO {
         this.stateNumber = stateNumber;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getType() {
+        return type;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Integer getYearOfRealise() {

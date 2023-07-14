@@ -1,11 +1,15 @@
 package com.chubov.transportcatalogapi.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VehicleTypeDTO {
     //  DTO для сущности VehicleType
 
+    @NotNull(message = "Должно присутствовать поле typeName!")
+    @NotEmpty(message = "Поле typeName не должно быть пустым! Example: Седан")
     String typeName;
 
 

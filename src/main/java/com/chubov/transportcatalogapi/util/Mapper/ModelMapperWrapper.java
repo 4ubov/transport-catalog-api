@@ -17,11 +17,11 @@ public class ModelMapperWrapper {
     private final VehicleCategoryRepositoryService categoryRepositoryService;
 
     @Autowired
-    public ModelMapperWrapper(ModelMapper modelMapper, VehicleTypeRepositoryService typeRepositoryService,
-                              VehicleCategoryRepositoryService categoryRepositoryService) {
+    public ModelMapperWrapper(ModelMapper modelMapper, VehicleTypeRepositoryService vehicleTypeRepositoryService,
+                              VehicleCategoryRepositoryService vehicleCategoryRepositoryService) {
         this.modelMapper = modelMapper;
-        this.typeRepositoryService = typeRepositoryService;
-        this.categoryRepositoryService = categoryRepositoryService;
+        this.typeRepositoryService = vehicleTypeRepositoryService;
+        this.categoryRepositoryService = vehicleCategoryRepositoryService;
     }
 
 

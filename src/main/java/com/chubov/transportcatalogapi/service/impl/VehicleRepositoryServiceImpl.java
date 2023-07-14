@@ -5,11 +5,13 @@ import com.chubov.transportcatalogapi.repository.vehicle.VehicleRepository;
 import com.chubov.transportcatalogapi.service.VehicleRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-@Repository
+@Service
 public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
     //  Vehicle Service class (business logic) that implement VehicleRepositoryService interface
 
@@ -38,5 +40,16 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
             // Выполнение фильтрации с использованием значений фильтров
             return vehicleRepository.findByFilters(filters);
         }
+    }
+
+    //  About: Возращает один объект Optional<Vehicle> из бд, выполняя поиск по stateNumber
+    @Override
+    public Optional<Vehicle> findOneByStateNumber(String stateNumber) {
+        return vehicleRepository.findOneByStateNumber(stateNumber);
+    }
+
+    @Override
+    public void save(Vehicle vehicle) {
+        vehicleRepository.save(vehicle);
     }
 }

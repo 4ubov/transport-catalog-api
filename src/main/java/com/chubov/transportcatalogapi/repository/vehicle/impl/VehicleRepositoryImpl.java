@@ -58,8 +58,9 @@ public class VehicleRepositoryImpl implements CustomizedVehicleFilter {
                     value = vehicleCategory.get().getCategoryId().toString();
                     filters.put(fieldName, value);
                 } else {
-                    //  Обработать ошибку надо что нет такого объекта в бд
-                    throw new EntityNotFoundException();
+                    //  Выбрасыват exception если объект не найден в БД
+                    //  Через UI не дать пользователю ввести кастомные данные
+                    throw new EntityNotFoundException("Entity vehicleCategory with entered name not found!");
                 }
                 query += " AND v.category.categoryId = :category";
 
@@ -71,8 +72,9 @@ public class VehicleRepositoryImpl implements CustomizedVehicleFilter {
                     value = vehicleType.get().getTypeId().toString();
                     filters.put(fieldName, value);
                 } else {
-                    //  Обработать ошибку надо что нет такого объекта в бд
-                    throw new EntityNotFoundException();
+                    //  Выбрасыват exception если объект не найден в БД
+                    //  Через UI не дать пользователю ввести кастомные данные
+                    throw new EntityNotFoundException("Entity vehicleType with entered name not found!");
                 }
                 query += " AND v.type.typeId = :type";
 

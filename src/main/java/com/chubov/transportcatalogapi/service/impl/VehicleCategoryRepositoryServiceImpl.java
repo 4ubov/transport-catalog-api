@@ -1,12 +1,17 @@
 package com.chubov.transportcatalogapi.service.impl;
 
 import com.chubov.transportcatalogapi.model.VehicleCategory;
+import com.chubov.transportcatalogapi.model.VehicleType;
 import com.chubov.transportcatalogapi.repository.vehicleCategory.VehicleCategoryRepository;
 import com.chubov.transportcatalogapi.service.VehicleCategoryRepositoryService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class VehicleCategoryRepositoryServiceImpl implements VehicleCategoryRepositoryService {
     //  Vehicle Category Service class (business logic) that implement VehicleCategoryRepositoryService interface
     private final VehicleCategoryRepository categoryRepository;
@@ -20,5 +25,17 @@ public class VehicleCategoryRepositoryServiceImpl implements VehicleCategoryRepo
     @Override
     public List<VehicleCategory> getAll() {
         return categoryRepository.findAll();
+    }
+
+    //  Возвращает объект VehicleCategory если найден в БД по categoryName
+    @Override
+    public Optional<VehicleCategory> getOneByCategoryName(String type) {
+        Optional<VehicleCategory> vehicleCategory = categoryRepository.findByCategoryName(type);
+        if(vehicleCategory.isPresent()){
+            return vehicleCategory;
+        }
+        else{
+            throw new EntityNotFoundException("VehicleCategory Entity with entered name not found!");
+        }
     }
 }

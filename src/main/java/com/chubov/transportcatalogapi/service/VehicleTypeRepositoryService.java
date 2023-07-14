@@ -4,6 +4,7 @@ import com.chubov.transportcatalogapi.model.VehicleType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface VehicleTypeRepositoryService {
@@ -11,4 +12,7 @@ public interface VehicleTypeRepositoryService {
 
     //  Метод для вывода всех значений
     List<VehicleType> getAll();
+
+    //  Метод для возвращения сущности при условии что найдено по typeName
+    Optional<VehicleType> getOneByTypeName(String type);
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public interface VehicleRepositoryService {
@@ -15,4 +16,8 @@ public interface VehicleRepositoryService {
 
     //  Метод для вывода отфильтрованных значений
     List<Vehicle> filter(Map<String, String> filters);
+
+    Optional<Vehicle> findOneByStateNumber(String stateNumber);
+
+    void save(Vehicle vehicle);
 }

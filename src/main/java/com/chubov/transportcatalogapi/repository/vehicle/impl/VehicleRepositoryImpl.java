@@ -91,7 +91,14 @@ public class VehicleRepositoryImpl implements CustomizedVehicleFilter {
             String fieldName = entry.getKey();
             String value = entry.getValue();
 
-            typedQuery.setParameter(fieldName, value);
+            //  Подстановка значений полей в соответсвии с их типом данных
+            if (fieldName.equals("category") || fieldName.equals("type") || fieldName.equals("yearOfRealise")) {
+                typedQuery.setParameter(fieldName, Integer.parseInt(value));
+            } else if (fieldName.equals("hasTrailer")) {
+                typedQuery.setParameter(fieldName, Boolean.parseBoolean(value));
+            } else {
+                typedQuery.setParameter(fieldName, value);
+            }
         }
 
         return typedQuery.getResultList();

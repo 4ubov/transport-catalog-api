@@ -3,8 +3,9 @@ package com.chubov.transportcatalogapi.service.impl;
 import com.chubov.transportcatalogapi.model.Vehicle;
 import com.chubov.transportcatalogapi.repository.vehicle.VehicleRepository;
 import com.chubov.transportcatalogapi.service.VehicleRepositoryService;
+import com.chubov.transportcatalogapi.util.customExeption.StateNumberAlreadyExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,8 +49,37 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
         return vehicleRepository.findOneByStateNumber(stateNumber);
     }
 
+    //  About: Добавляет новый объек Vehicle в БД
     @Override
     public void save(Vehicle vehicle) {
         vehicleRepository.save(vehicle);
+    }
+
+    //  About: Обновляет сущность Vehicle в БД
+    @Override
+    public void update(Vehicle newVehicle) {
+        Optional<Vehicle> oldVehicle = vehicleRepository.findById(newVehicle.getVehicleId());
+        if(oldVehicle.isPresent()){
+            oldVehicle.get().setBrand(newVehicle.getBrand());
+            oldVehicle.get().setModel(newVehicle.getModel());
+            oldVehicle.get().setYearOfRealise(newVehicle.getYearOfRealise());
+
+            //  Валидация нового stateNumber, если он не такой же как и раньше и
+            //  нашлась сущность с этим номером, то выдать исключение
+            Optional<Vehicle> validatedStateNumber = findOneByStateNumber(newVehicle.getStateNumber());
+            if(!newVehicle.getStateNumber().equals(oldVehicle.get().getStateNumber()) && validatedStateNumber.isPresent()){
+                throw new StateNumberAlreadyExistsException("Введённый stateNumber уже используется другим транспортом");
+            }
+
+            oldVehicle.get().setStateNumber(newVehicle.getStateNumber());
+            oldVehicle.get().setHasTrailer(newVehicle.getHasTrailer());
+            oldVehicle.get().setType(newVehicle.getType());
+            oldVehicle.get().setCategory(newVehicle.getCategory());
+
+            vehicleRepository.save(oldVehicle.get());
+        }
+        else {
+            throw new EntityNotFoundException("Vehicle with entered id is not found!");
+        }
     }
 }

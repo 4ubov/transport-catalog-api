@@ -38,6 +38,7 @@ public class ModelMapperWrapper {
     //  This impl work correct. Just Convert from VehicleDto to Vehicle
     public Vehicle convertToVehicleCustom(VehicleDTO vehicleDTO) {
         Vehicle vehicle = new Vehicle();
+        vehicle.setVehicleId(vehicleDTO.getVehicleId());
         vehicle.setBrand(vehicleDTO.getBrand());
         vehicle.setModel(vehicleDTO.getModel());
         vehicle.setYearOfRealise(vehicleDTO.getYearOfRealise());

@@ -17,7 +17,12 @@ public interface VehicleRepositoryService {
     //  Метод для вывода отфильтрованных значений
     List<Vehicle> filter(Map<String, String> filters);
 
+    //  Метод возвращает Optional<Vehicle> при условии что нашолся с таким stateNumber
     Optional<Vehicle> findOneByStateNumber(String stateNumber);
 
+    //  Метод выполняет добавление Vehicle в БД
     void save(Vehicle vehicle);
+
+    //  Метод выполняет обновление Vehicle в БД
+    void update(Vehicle newVehicle);
 }

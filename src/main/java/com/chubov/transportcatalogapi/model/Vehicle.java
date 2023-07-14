@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "vehicle")
 public class Vehicle {
+    //  Сущность описывающая транспорт
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vehicle_id")

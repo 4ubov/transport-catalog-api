@@ -7,5 +7,8 @@ import java.util.List;
 
 @Service
 public interface VehicleTypeRepositoryService {
+    //  Интерфейс для описания методов сервиса (VehicleTypeRepositoryService)
+
+    //  Метод для вывода всех значений
     List<VehicleType> getAll();
 }

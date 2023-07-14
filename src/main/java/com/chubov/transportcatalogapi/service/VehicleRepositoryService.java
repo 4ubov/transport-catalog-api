@@ -8,7 +8,11 @@ import java.util.Map;
 
 @Service
 public interface VehicleRepositoryService {
+    //  Интерфейс для описания методов сервиса (VehicleRepositoryService)
+
+    //  Метод для вывода всех значений
     List<Vehicle> getAll();
 
+    //  Метод для вывода отфильтрованных значений
     List<Vehicle> filter(Map<String, String> filters);
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "vehicle_type")
 public class VehicleType {
-    //  Сущность описывающая Категорию транспорта
+    //  Сущность описывающая тип транспорта
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

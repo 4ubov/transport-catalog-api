@@ -21,7 +21,13 @@ public class VehicleController {
     }
 
 
-    //  Endpoint for filter
+    //  About: Endpoint for returning filtered values of type List<Vehicle>
+    //  Example json Input:
+    //  Map<String, String> filters
+    //  {
+    //      "category" : "D",
+    //      "type" : "Седан"
+    //  }
     @PostMapping("/filter")
     @ResponseBody
     List<Vehicle> filter(@RequestBody Map<String, String> filters) {

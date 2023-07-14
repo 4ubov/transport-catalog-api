@@ -1,11 +1,11 @@
-package com.chubov.transportcatalogapi.repository.impl;
+package com.chubov.transportcatalogapi.repository.vehicle.impl;
 
 import com.chubov.transportcatalogapi.model.Vehicle;
 import com.chubov.transportcatalogapi.model.VehicleCategory;
 import com.chubov.transportcatalogapi.model.VehicleType;
-import com.chubov.transportcatalogapi.repository.CustomizedVehicleFilter;
-import com.chubov.transportcatalogapi.repository.VehicleCategoryRepository;
-import com.chubov.transportcatalogapi.repository.VehicleTypeRepository;
+import com.chubov.transportcatalogapi.repository.vehicle.CustomizedVehicleFilter;
+import com.chubov.transportcatalogapi.repository.vehicleCategory.VehicleCategoryRepository;
+import com.chubov.transportcatalogapi.repository.vehicleType.VehicleTypeRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
@@ -32,7 +32,9 @@ public class VehicleRepositoryImpl implements CustomizedVehicleFilter {
     @PersistenceContext
     private EntityManager entityManager;
 
-    //  Реализация фильтрации
+    //  Реализация метода фильтрации
+    //  Example Input:
+    //  Map<String, String> filters
     //  {
     //      "category" : "D",
     //      "type" : "Седан"
@@ -40,14 +42,17 @@ public class VehicleRepositoryImpl implements CustomizedVehicleFilter {
     @Override
     public List<Vehicle> findByFilters(Map<String, String> filters) {
 
-        // Формирование запроса с учетом переданных значений фильтров
-        String queryBuilder = "SELECT v FROM Vehicle v WHERE 1=1";
+        // Формирование составного запроса с учетом переданных значений фильтров
+        String query = "SELECT v FROM Vehicle v WHERE 1=1";
 
         for (Map.Entry<String, String> entry : filters.entrySet()) {
             String fieldName = entry.getKey();
             String value = entry.getValue();
 
+            //  Частные случании для связных сущностей (VehicleCategory, VehicleType)
             if (fieldName.equals("category")) {
+                //  Код для маппинга из categoryName to categoryId для будущей фильтрации
+                //  From input : "category" : "D"  --> to "category" : "4"
                 Optional<VehicleCategory> vehicleCategory = categoryRepository.findByCategoryName(value);
                 if (vehicleCategory.isPresent()) {
                     value = vehicleCategory.get().getCategoryId().toString();
@@ -56,8 +61,11 @@ public class VehicleRepositoryImpl implements CustomizedVehicleFilter {
                     //  Обработать ошибку надо что нет такого объекта в бд
                     throw new EntityNotFoundException();
                 }
-                queryBuilder += " AND v.category.categoryId = :category";
+                query += " AND v.category.categoryId = :category";
+
             } else if (fieldName.equals("type")) {
+                //  Код для маппинга из categoryName to categoryId для будущей фильтрации
+                //  From input : "type" : "Седан"  --> to "type" : "2"
                 Optional<VehicleType> vehicleType = typeRepository.findByTypeName(value);
                 if (vehicleType.isPresent()) {
                     value = vehicleType.get().getTypeId().toString();
@@ -66,27 +74,24 @@ public class VehicleRepositoryImpl implements CustomizedVehicleFilter {
                     //  Обработать ошибку надо что нет такого объекта в бд
                     throw new EntityNotFoundException();
                 }
-                queryBuilder += " AND v.type.typeId = :type";
+                query += " AND v.type.typeId = :type";
+
             } else {
-                queryBuilder += " AND v." + fieldName + " = :" + fieldName;
+                //  Добавление составного запроса для обыных полей (не связых сущностей)
+                query += " AND v." + fieldName + " = :" + fieldName;
             }
         }
 
-        // Создание запроса и применение значений фильтров
+        // Создание составного запроса и применение значений фильтров
 
-        TypedQuery<Vehicle> typedQuery = entityManager.createQuery(queryBuilder, Vehicle.class);
+        TypedQuery<Vehicle> typedQuery = entityManager.createQuery(query, Vehicle.class);
 
+        //  Подстановка значений полей в составной запрос
         for (Map.Entry<String, String> entry : filters.entrySet()) {
             String fieldName = entry.getKey();
             String value = entry.getValue();
 
-            if (fieldName.equals("category") || fieldName.equals("type") || fieldName.equals("yearOfRealise")) {
-                typedQuery.setParameter(fieldName, Integer.parseInt(value));
-            } else if (fieldName.equals("hasTrailer")) {
-                typedQuery.setParameter(fieldName, Boolean.parseBoolean(value));
-            } else {
-                typedQuery.setParameter(fieldName, value);
-            }
+            typedQuery.setParameter(fieldName, value);
         }
 
         return typedQuery.getResultList();

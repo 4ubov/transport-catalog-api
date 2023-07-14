@@ -3,8 +3,15 @@ package com.chubov.transportcatalogapi.controller;
 import com.chubov.transportcatalogapi.dto.VehicleDTO;
 import com.chubov.transportcatalogapi.model.Vehicle;
 import com.chubov.transportcatalogapi.service.VehicleRepositoryService;
-import org.modelmapper.ModelMapper;
+import com.chubov.transportcatalogapi.util.Mapper.ModelMapperWrapper;
+import com.chubov.transportcatalogapi.util.customExeption.VehicleNotCreatedException;
+import com.chubov.transportcatalogapi.util.validator.UniqueVehicleValidator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,16 +24,59 @@ public class VehicleController {
     //  Main controller
 
     private final VehicleRepositoryService vehicleRepositoryService;
-    private final ModelMapper modelMapper;
+
+    private final ModelMapperWrapper modelMapper;
+    private final UniqueVehicleValidator validator;
 
     @Autowired
-    public VehicleController(VehicleRepositoryService vehicleRepositoryService, ModelMapper modelMapper) {
+    public VehicleController(VehicleRepositoryService vehicleRepositoryService, ModelMapperWrapper modelMapper, UniqueVehicleValidator validator) {
         this.vehicleRepositoryService = vehicleRepositoryService;
         this.modelMapper = modelMapper;
+        this.validator = validator;
     }
 
 
-    //  About: Endpoint for returning filtered values of type List<Vehicle>
+    //  About: Endpoint for returning all values of type List<Vehicle> from DB
+    @GetMapping("/")
+    @ResponseStatus(HttpStatus.OK)
+    List<VehicleDTO> getAll(){
+        return vehicleRepositoryService.getAll().stream().map(modelMapper::convertToVehicleDTO).toList();
+    }
+
+    //  About: Endpoint for add new Vehicle to DB
+    //  Exception checking included
+    @PostMapping("/add")
+    ResponseEntity<HttpStatus> addVehicle(@RequestBody @Valid VehicleDTO vehicleDTO, BindingResult bindingResult){
+        //  Converting from vehicleDto to vehicle and ...
+        //  Checking this object by a unique state number in the database. Using UniqueVehicleValidator
+        Vehicle vehicle = modelMapper.convertToVehicleCustom(vehicleDTO);
+        validator.validate(vehicle, bindingResult);
+
+        //  Обработка ошибок связанных с валидацией данных
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                errorMessage.append(error.getField())
+                        .append(" - ")
+                        .append(error.getDefaultMessage())
+                        .append("; ");
+            }
+            //  Этот exception перехватиться GlobalExceptionHandler и выведит кастомный ответ
+            throw new VehicleNotCreatedException(errorMessage.toString());
+        }
+
+        //  Добваление нового транспорта в БД
+        vehicleRepositoryService.save(vehicle);
+
+        //  Status-code: 200 при успешном добавлении транспорта в БД
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+
+
+
+    //  About: Endpoint for returning filtered values of type List<VehicleDTO> fromDB
     //  Example json Input:
     //  Map<String, String> filters
     //  {
@@ -35,20 +85,10 @@ public class VehicleController {
     //  }
     @PostMapping("/filter")
     @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
     List<VehicleDTO> filter(@RequestBody Map<String, String> filters) {
-        return vehicleRepositoryService.filter(filters).stream().map(this::convertToVehicleDTO).collect(Collectors.toList());
+        return vehicleRepositoryService.filter(filters).stream().map(modelMapper::convertToVehicleDTO).collect(Collectors.toList());
     }
 
 
-
-
-
-    //  ModelMapper methods. Converters.
-    private Vehicle convertToVehicle(VehicleDTO vehicleDTO) {
-        return modelMapper.map(vehicleDTO, Vehicle.class);
-    }
-
-    private VehicleDTO convertToVehicleDTO(Vehicle vehicle) {
-        return modelMapper.map(vehicle, VehicleDTO.class);
-    }
 }

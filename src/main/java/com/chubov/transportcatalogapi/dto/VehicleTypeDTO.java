@@ -8,13 +8,17 @@ import org.springframework.stereotype.Component;
 public class VehicleTypeDTO {
     //  DTO для сущности VehicleType
 
+    Long typeId;
+
     @NotNull(message = "Должно присутствовать поле typeName!")
     @NotEmpty(message = "Поле typeName не должно быть пустым! Example: Седан")
     String typeName;
 
 
     //  Constructors
-    public VehicleTypeDTO(String typeName) {
+
+    public VehicleTypeDTO(Long typeId, String typeName) {
+        this.typeId = typeId;
         this.typeName = typeName;
     }
 
@@ -32,5 +36,13 @@ public class VehicleTypeDTO {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
     }
 }

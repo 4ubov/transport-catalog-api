@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/vehicle/")
 public class VehicleController {
-    //  Main controller
+    //  Vehicle controller
 
     private final VehicleRepositoryService vehicleRepositoryService;
 
@@ -35,12 +35,22 @@ public class VehicleController {
         this.validator = validator;
     }
 
+    //  Endpoints
+
 
     //  About: Endpoint for returning all values of type List<Vehicle> from DB
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     List<VehicleDTO> getAll() {
         return vehicleRepositoryService.getAll().stream().map(modelMapper::convertToVehicleDTO).toList();
+    }
+
+    //  About: Endpoint for returning one object of type Vehicle from DB
+    @PostMapping("/get-one")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    VehicleDTO getOne(@RequestBody Long id) {
+        return modelMapper.convertToVehicleDTO(vehicleRepositoryService.getOneById(id));
     }
 
     //  About: Endpoint for add new Vehicle to DB

@@ -25,4 +25,7 @@ public interface VehicleRepositoryService {
 
     //  Метод выполняет обновление Vehicle в БД
     void update(Vehicle newVehicle);
+
+    //  Метод выполняет поиск одного Vehicle в БД по vehicleId
+    Vehicle getOneById(Long id);
 }

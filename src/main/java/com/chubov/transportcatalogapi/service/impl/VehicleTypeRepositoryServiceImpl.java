@@ -39,4 +39,16 @@ public class VehicleTypeRepositoryServiceImpl implements VehicleTypeRepositorySe
             throw new EntityNotFoundException("VehicleType Entity with entered name not found!");
         }
     }
+
+    //  Возвращает объект VehicleType если найден в БД по typeId
+    @Override
+    public VehicleType findById(Long id) {
+        Optional<VehicleType> vehicleType = typeRepository.findById(id);
+        if(vehicleType.isPresent()){
+            return vehicleType.get();
+        }
+        else{
+            throw new EntityNotFoundException("VehicleType Entity with entered ID not found!");
+        }
+    }
 }

@@ -59,7 +59,7 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
     @Override
     public void update(Vehicle newVehicle) {
         Optional<Vehicle> oldVehicle = vehicleRepository.findById(newVehicle.getVehicleId());
-        if(oldVehicle.isPresent()){
+        if (oldVehicle.isPresent()) {
             oldVehicle.get().setBrand(newVehicle.getBrand());
             oldVehicle.get().setModel(newVehicle.getModel());
             oldVehicle.get().setYearOfRealise(newVehicle.getYearOfRealise());
@@ -67,7 +67,7 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
             //  Валидация нового stateNumber, если он не такой же как и раньше и
             //  нашлась сущность с этим номером, то выдать исключение
             Optional<Vehicle> validatedStateNumber = findOneByStateNumber(newVehicle.getStateNumber());
-            if(!newVehicle.getStateNumber().equals(oldVehicle.get().getStateNumber()) && validatedStateNumber.isPresent()){
+            if (!newVehicle.getStateNumber().equals(oldVehicle.get().getStateNumber()) && validatedStateNumber.isPresent()) {
                 throw new StateNumberAlreadyExistsException("Введённый stateNumber уже используется другим транспортом");
             }
 
@@ -77,9 +77,19 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
             oldVehicle.get().setCategory(newVehicle.getCategory());
 
             vehicleRepository.save(oldVehicle.get());
-        }
-        else {
+        } else {
             throw new EntityNotFoundException("Vehicle with entered id is not found!");
+        }
+    }
+
+    //  About: Возвращает одну сущность Vehicle в БД по vehicleId
+    @Override
+    public Vehicle getOneById(Long id) {
+        Optional<Vehicle> vehicle = vehicleRepository.findById(id);
+        if (vehicle.isPresent()) {
+            return vehicle.get();
+        } else {
+            throw new EntityNotFoundException("Vehicle Entity with entered id not found!");
         }
     }
 }

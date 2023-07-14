@@ -15,4 +15,7 @@ public interface VehicleTypeRepositoryService {
 
     //  Метод для возвращения сущности при условии что найдено по typeName
     Optional<VehicleType> getOneByTypeName(String type);
+
+    //  Метод для возвращения сущности при условии что найдено по typeId
+    VehicleType findById(Long id);
 }

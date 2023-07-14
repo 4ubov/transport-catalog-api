@@ -15,4 +15,7 @@ public interface VehicleCategoryRepositoryService {
 
     //  Метод для возвращения сущности при условии что найдено по categoryName
     Optional<VehicleCategory> getOneByCategoryName(String category);
+
+    //  Метод для возвращения сущности при условии что найдено по categoryId
+    VehicleCategory findById(Long id);
 }

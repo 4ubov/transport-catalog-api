@@ -38,4 +38,16 @@ public class VehicleCategoryRepositoryServiceImpl implements VehicleCategoryRepo
             throw new EntityNotFoundException("VehicleCategory Entity with entered name not found!");
         }
     }
+
+    //  Возвращает объект VehicleCategory если найден в БД по categoryId
+    @Override
+    public VehicleCategory findById(Long id) {
+        Optional<VehicleCategory> vehicleCategory = categoryRepository.findById(id);
+        if(vehicleCategory.isPresent()){
+            return vehicleCategory.get();
+        }
+        else{
+            throw new EntityNotFoundException("VehicleCategory Entity with entered ID not found!");
+        }
+    }
 }

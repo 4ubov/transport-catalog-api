@@ -9,7 +9,7 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vehicle_id")
-    private Integer vehicleId;
+    private Long vehicleId;
 
     @Column(name = "brand")
     private String brand;
@@ -56,11 +56,11 @@ public class Vehicle {
     //  Getter and Setter
 
 
-    public Integer getVehicleId() {
+    public Long getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(Integer vehicleId) {
+    public void setVehicleId(Long vehicleId) {
         this.vehicleId = vehicleId;
     }
 

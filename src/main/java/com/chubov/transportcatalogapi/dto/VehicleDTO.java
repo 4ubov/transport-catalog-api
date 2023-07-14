@@ -3,12 +3,14 @@ package com.chubov.transportcatalogapi.dto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.UniqueElements;
+import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.Empty;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VehicleDTO {
     //  DTO для сущности Vehicle
 
+    private Long vehicleId;
     @NotNull(message = "Должно присутствовать поле brand!")
     @NotEmpty(message = "Поле brand не должно быть пустым! Example: BWM")
     private String brand;
@@ -39,7 +41,8 @@ public class VehicleDTO {
     //  Constructors
 
 
-    public VehicleDTO(String brand, String model, String category, String stateNumber, String type, Integer yearOfRealise, Boolean hasTrailer) {
+    public VehicleDTO(Long vehicleId, String brand, String model, String category, String stateNumber, String type, Integer yearOfRealise, Boolean hasTrailer) {
+        this.vehicleId = vehicleId;
         this.brand = brand;
         this.model = model;
         this.category = category;
@@ -56,6 +59,14 @@ public class VehicleDTO {
 
     //  Getter and Setter
 
+
+    public Long getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(Long vehicleId) {
+        this.vehicleId = vehicleId;
+    }
 
     public String getBrand() {
         return brand;

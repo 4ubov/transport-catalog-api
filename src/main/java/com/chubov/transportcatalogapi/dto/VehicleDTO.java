@@ -1,8 +1,5 @@
 package com.chubov.transportcatalogapi.dto;
 
-import com.chubov.transportcatalogapi.model.VehicleCategory;
-import com.chubov.transportcatalogapi.model.VehicleType;
-import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 @Component

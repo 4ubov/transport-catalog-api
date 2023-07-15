@@ -61,6 +61,3 @@ values ('Mercedes', 'E250', 1, 'F553RH58', 2, 2007, false),
        ('KAMAZ', 'G1', 3, 'K777AM58', 5, 2016, TRUE);
 
 
-drop table vehicle;
-drop table vehicle_type;
-truncate table vehicle;

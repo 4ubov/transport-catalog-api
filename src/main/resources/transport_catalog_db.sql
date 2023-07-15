@@ -48,12 +48,17 @@ values ('Mercedes', 'E250', 1, 'F553RH58', 2, 2007, false),
        ('BMW', 'M5', 1, 'G222EE58', 4, 2010, false),
        ('BMW', 'E3', 1, 'A111AA58', 2, 2011, false),
        ('AUDI', 'Q5', 1, 'G212GG58', 7, 2014, false),
-       ('AUDI', 'Q7', 1, 'T444TT58', 1, 2013, false),
+       ('AUDI', 'Q7', 1, 'R31TR58', 5, 2020, true),
+       ('KAMAZ', '2', 3, 'T474VV58', 1, 2013, false),
+       ('MAZ', 'FR', 3, 'E332TF58', 5, 2018, false),
+       ('Lada', 'Granta', 1, 'E545BB58', 4, 2011, false),
+       ('Honda', 'Civic', 1, 'V678BB58', 1, 2014, false),
+       ('Kia', 'Rio', 1, 'V777DD58', 2, 2020, false),
+       ('Kia', 'Rio', 1, 'B888DT58', 2, 2020, false),
+       ('Volkswagen', 'Passat', 1, 'B66DD58', 1, 2011, false),
        ('KAMAZ', 'G1', 3, 'K777AM58', 5, 2016, TRUE);
 
 
 drop table vehicle;
 drop table vehicle_type;
 truncate table vehicle;
-
--- trasport one to many category

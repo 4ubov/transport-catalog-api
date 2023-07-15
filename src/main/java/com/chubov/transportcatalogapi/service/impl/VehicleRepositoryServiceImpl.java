@@ -62,7 +62,7 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
         Optional<Vehicle> oldVehicle = vehicleRepository.findById(newVehicle.getVehicleId());
         if (oldVehicle.isPresent()) {
             //  Проверка на то, если человек отправил не изменённый объект
-            if (oldVehicle.get().equals(newVehicle)){
+            if (oldVehicle.get().equals(newVehicle)) {
                 throw new EntityAlreadyExist("Данный объект уже существует!");
             }
             oldVehicle.get().setBrand(newVehicle.getBrand());
@@ -87,15 +87,13 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
         }
     }
 
-    //  About: Возвращает одну сущность Vehicle в БД по vehicleId
+    //  About: Возвращает одну сущность Vehicle из БД по vehicleId
     @Override
     public Vehicle getOneById(Map<String, String> id) {
-        System.out.println(id.get("vehicleId"));
         long longId;
-        try{
+        try {
             longId = Long.parseLong(id.get("vehicleId"));
-        }
-        catch (RuntimeException exception){
+        } catch (RuntimeException exception) {
             throw new RuntimeException("Entered vehicleId is not correct type, it need be a digit");
         }
         Optional<Vehicle> vehicle = vehicleRepository.findById(longId);

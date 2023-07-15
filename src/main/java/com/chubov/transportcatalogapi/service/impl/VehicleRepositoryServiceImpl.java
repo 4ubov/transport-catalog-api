@@ -3,6 +3,7 @@ package com.chubov.transportcatalogapi.service.impl;
 import com.chubov.transportcatalogapi.model.Vehicle;
 import com.chubov.transportcatalogapi.repository.vehicle.VehicleRepository;
 import com.chubov.transportcatalogapi.service.VehicleRepositoryService;
+import com.chubov.transportcatalogapi.util.customExeption.BadIdFormatException;
 import com.chubov.transportcatalogapi.util.customExeption.EntityAlreadyExist;
 import com.chubov.transportcatalogapi.util.customExeption.StateNumberAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -94,7 +95,7 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
         try {
             longId = Long.parseLong(id.get("vehicleId"));
         } catch (RuntimeException exception) {
-            throw new RuntimeException("Entered vehicleId is not correct type, it need be a digit");
+            throw new BadIdFormatException("Entered vehicleId is incorrect type, it need be a number");
         }
         Optional<Vehicle> vehicle = vehicleRepository.findById(longId);
         if (vehicle.isPresent()) {

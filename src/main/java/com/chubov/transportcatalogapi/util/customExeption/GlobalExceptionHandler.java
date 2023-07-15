@@ -29,6 +29,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<ErrorResponse> catchResourceNotFoundException(BadIdFormatException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                e.getMessage(),
+                System.currentTimeMillis()
+        ), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<ErrorResponse> catchResourceNotFoundException(StateNumberAlreadyExistsException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),

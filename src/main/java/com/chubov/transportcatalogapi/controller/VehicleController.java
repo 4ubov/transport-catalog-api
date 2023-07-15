@@ -84,7 +84,7 @@ public class VehicleController {
         vehicleRepositoryService.save(vehicle);
 
         //  Status-code: 200 при успешном добавлении транспорта в БД
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     //  About: Endpoint to update machine data in DB
@@ -111,8 +111,8 @@ public class VehicleController {
         //  Добваление обновление транспортного ср-ва в БД
         vehicleRepositoryService.update(newVehicle);
 
-        //  Status-code: 200 при успешном добавлении транспорта в БД
-        return ResponseEntity.ok(HttpStatus.OK);
+        //  Status-code: 200 при успешном обновлении транспорта в БД
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
 

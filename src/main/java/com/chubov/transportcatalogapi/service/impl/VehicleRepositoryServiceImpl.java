@@ -3,6 +3,7 @@ package com.chubov.transportcatalogapi.service.impl;
 import com.chubov.transportcatalogapi.model.Vehicle;
 import com.chubov.transportcatalogapi.repository.vehicle.VehicleRepository;
 import com.chubov.transportcatalogapi.service.VehicleRepositoryService;
+import com.chubov.transportcatalogapi.util.customExeption.EntityAlreadyExist;
 import com.chubov.transportcatalogapi.util.customExeption.StateNumberAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,10 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
     public void update(Vehicle newVehicle) {
         Optional<Vehicle> oldVehicle = vehicleRepository.findById(newVehicle.getVehicleId());
         if (oldVehicle.isPresent()) {
+            //  Проверка на то, если человек отправил не изменённый объект
+            if (oldVehicle.get().equals(newVehicle)){
+                throw new EntityAlreadyExist("Данный объект уже существует!");
+            }
             oldVehicle.get().setBrand(newVehicle.getBrand());
             oldVehicle.get().setModel(newVehicle.getModel());
             oldVehicle.get().setYearOfRealise(newVehicle.getYearOfRealise());
@@ -84,8 +89,16 @@ public class VehicleRepositoryServiceImpl implements VehicleRepositoryService {
 
     //  About: Возвращает одну сущность Vehicle в БД по vehicleId
     @Override
-    public Vehicle getOneById(Long id) {
-        Optional<Vehicle> vehicle = vehicleRepository.findById(id);
+    public Vehicle getOneById(Map<String, String> id) {
+        System.out.println(id.get("vehicleId"));
+        long longId;
+        try{
+            longId = Long.parseLong(id.get("vehicleId"));
+        }
+        catch (RuntimeException exception){
+            throw new RuntimeException("Entered vehicleId is not correct type, it need be a digit");
+        }
+        Optional<Vehicle> vehicle = vehicleRepository.findById(longId);
         if (vehicle.isPresent()) {
             return vehicle.get();
         } else {

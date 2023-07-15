@@ -2,8 +2,6 @@ package com.chubov.transportcatalogapi.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.Empty;
 import org.springframework.stereotype.Component;
 
 @Component

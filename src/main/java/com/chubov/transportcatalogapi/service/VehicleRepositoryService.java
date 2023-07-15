@@ -27,5 +27,5 @@ public interface VehicleRepositoryService {
     void update(Vehicle newVehicle);
 
     //  Метод выполняет поиск одного Vehicle в БД по vehicleId
-    Vehicle getOneById(Long id);
+    Vehicle getOneById(Map<String, String> id);
 }

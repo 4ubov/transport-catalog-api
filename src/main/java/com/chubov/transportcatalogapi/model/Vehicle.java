@@ -2,6 +2,8 @@ package com.chubov.transportcatalogapi.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "vehicle")
 public class Vehicle {
@@ -50,6 +52,30 @@ public class Vehicle {
 
     //  No args constructor
     public Vehicle() {
+    }
+
+    // Equals and hashCode
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Vehicle other = (Vehicle) obj;
+        return Objects.equals(brand, other.brand)
+                && Objects.equals(model, other.model)
+                && Objects.equals(category, other.category)
+                && Objects.equals(stateNumber, other.stateNumber)
+                && Objects.equals(type, other.type)
+                && Objects.equals(yearOfRealise, other.yearOfRealise)
+                && Objects.equals(hasTrailer, other.hasTrailer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(brand, model, category, stateNumber, type, yearOfRealise, hasTrailer);
     }
 
 

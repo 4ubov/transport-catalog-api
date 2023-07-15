@@ -46,10 +46,13 @@ public class VehicleController {
     }
 
     //  About: Endpoint for returning one object of type Vehicle from DB
+    //  {
+    //      "vehicleId":3
+    //  }
     @PostMapping("/get-one")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    VehicleDTO getOne(@RequestBody Long id) {
+    VehicleDTO getOne(@RequestBody Map<String, String> id) {
         return modelMapper.convertToVehicleDTO(vehicleRepositoryService.getOneById(id));
     }
 
